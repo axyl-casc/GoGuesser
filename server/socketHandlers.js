@@ -47,7 +47,7 @@ function initSocket(io, sessionMiddleware) {
                 setTimeout(() => {
                     timer = SGF_INTERVAL;
                     sendNewSGF();
-                }, 1000);
+                }, 10000);
             }
         }, 1000);
     }
