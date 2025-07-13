@@ -15,6 +15,12 @@
     </form>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const urlRank = params.get('rank');
+            if (urlRank) {
+                localStorage.setItem('local_rank', urlRank);
+            }
+
             const form = document.querySelector('form');
             const input = form.querySelector('input[name="username"]');
             const savedName = localStorage.getItem('username');

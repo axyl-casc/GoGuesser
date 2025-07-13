@@ -1,6 +1,12 @@
 let socket;
 
 document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const urlRank = params.get('rank');
+    if (urlRank) {
+        localStorage.setItem('local_rank', urlRank);
+    }
+
     socket = io();
     let currentPlayer = null;
     let userVote = null;
