@@ -138,9 +138,17 @@
         .wgo-controls, .wgo-player-info {
             display: none !important;
         }
+
+        #exit-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            padding: 5px 10px;
+        }
     </style>
 </head>
 <body>
+    <button id="exit-button" onclick="exitApp()">Exit</button>
     <div id="main-container">
         <div id="chat-container">
             <div id="chat-messages"></div>
