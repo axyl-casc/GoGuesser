@@ -23,6 +23,11 @@ function findPuzzleMove(content) {
     return 0;
 }
 
+function findAnswer(content) {
+    const match = content.match(/Answer:([ABC])/);
+    return match ? match[1] : null;
+}
+
 function getRandomSGF() {
     const files = getSGFFiles();
     if (!files.length) return null;
@@ -31,7 +36,8 @@ function getRandomSGF() {
     return {
         name: randomFile.name.split('_')[0],
         move: findPuzzleMove(sgfContent),
-        content: sgfContent
+        content: sgfContent,
+        answer: findAnswer(sgfContent)
     };
 }
 

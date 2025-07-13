@@ -113,6 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
         timeLeft.textContent = time;
     });
 
+    socket.on('answer', (correct) => {
+        const original = document.body.style.backgroundColor;
+        const isCorrect = userVote && userVote === correct;
+        document.body.style.backgroundColor = isCorrect ? '#8BC34A' : '#F44336';
+        setTimeout(() => {
+            document.body.style.backgroundColor = original || '';
+        }, 500);
+    });
+
     // Event listeners
     document.querySelectorAll('.vote-button').forEach(button => {
         button.addEventListener('click', (e) => {
