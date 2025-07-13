@@ -20,7 +20,7 @@
 
         #main-container {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 20px;
             flex: 1;
         }
@@ -142,6 +142,12 @@
 </head>
 <body>
     <div id="main-container">
+        <div id="chat-container">
+            <div id="chat-messages"></div>
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+            <div id="timer">Next game in: <span id="time-left">30</span>s</div>
+        </div>
         <div id="game-section">
             <div id="board-container"></div>
             <div id="vote-container">
@@ -152,12 +158,6 @@
                 <button class="vote-button" data-option="C">C</button>
                 <div class="vote-count" id="count-c">0</div>
             </div>
-        </div>
-        <div id="chat-container">
-            <div id="chat-messages"></div>
-            <input type="text" id="chat-input" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
-            <div id="timer">Next game in: <span id="time-left">30</span>s</div>
         </div>
     </div>
 
