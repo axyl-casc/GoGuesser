@@ -1,0 +1,3 @@
+- swear filter
+- auto login
+- score
