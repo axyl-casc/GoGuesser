@@ -138,10 +138,13 @@ io.on('connection', (socket) => {
     }
     
     // Handle chat messages
-    socket.on('chat-message', (message) => {
-        const clean = sanitizeHtml(message, { allowedTags: [], allowedAttributes: {} });
+    socket.on('chat-message', (data) => {
+        const text = typeof data === 'string' ? data : data.text;
+        const rank = data && data.rank ? data.rank : '?';
+        const clean = sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} });
         io.emit('chat-message', {
             text: clean,
+            rank,
             timestamp: new Date().toISOString(),
             user: username
         });
