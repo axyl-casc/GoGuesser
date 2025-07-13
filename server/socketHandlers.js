@@ -16,12 +16,14 @@ function initSocket(io, sessionMiddleware) {
 
     let timer = SGF_INTERVAL;
     let currentSGF = null;
+    let lastSGFName = null;
     let voteCounts = { A: 0, B: 0, C: 0 };
 
     function sendNewSGF() {
-        const sgf = getRandomSGF();
+        const sgf = getRandomSGF(lastSGFName);
         if (!sgf) return;
         currentSGF = sgf;
+        lastSGFName = sgf.name;
         voteCounts = { A: 0, B: 0, C: 0 };
         io.emit('sgf-data', {
             ...currentSGF,
