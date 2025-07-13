@@ -1,5 +1,7 @@
+let socket;
+
 document.addEventListener('DOMContentLoaded', () => {
-    const socket = io();
+    socket = io();
     let currentPlayer = null;
     let userVote = null;
     
@@ -33,7 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function disableBoardInteractions() {
         if(currentPlayer && currentPlayer.board) {
             currentPlayer.board.element.style.pointerEvents = 'none';
-            currentPlayer.board._eventListeners.click = [];
+            if(currentPlayer.board._eventListeners && currentPlayer.board._eventListeners.click) {
+                currentPlayer.board._eventListeners.click = [];
+            }
         }
     }
 
