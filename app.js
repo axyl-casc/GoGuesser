@@ -72,12 +72,19 @@ function startTimers() {
     setInterval(() => {
         timer--;
         io.emit('time-update', timer);
-        
+
         if (timer <= 0) {
             timer = SGF_INTERVAL;
             sendNewSGF();
         }
     }, 1000);
+}
+
+// Broadcast vote counts on a regular interval
+function startVoteUpdates() {
+    setInterval(() => {
+        io.emit('vote-update', voteCounts);
+    }, 100);
 }
 
 // Server setup
@@ -162,4 +169,5 @@ server.listen(3000, () => {
     console.log('Server running on port 3000');
     sendNewSGF();
     startTimers();
+    startVoteUpdates();
 });
