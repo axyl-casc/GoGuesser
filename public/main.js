@@ -85,7 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const userSpan = document.createElement('span');
         userSpan.className = 'user';
-        userSpan.textContent = `[${msg.user}]`;
+        const rankText = msg.rank ? msg.rank : '?';
+        userSpan.textContent = `${msg.user} (${rankText})`;
 
         const textNode = document.createTextNode(` ${msg.text} `);
 
@@ -121,7 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function sendMessage() {
     const message = document.getElementById('chat-input').value.trim();
     if(message) {
-        socket.emit('chat-message', message);
+        const rank = localStorage.getItem('local_rank') || '?';
+        socket.emit('chat-message', { text: message, rank });
         document.getElementById('chat-input').value = '';
     }
 }
