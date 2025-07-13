@@ -145,11 +145,11 @@
         <div id="game-section">
             <div id="board-container"></div>
             <div id="vote-container">
-                <button class="vote-button" onclick="handleVote('A')" data-option="A">A</button>
+                <button class="vote-button" data-option="A">A</button>
                 <div class="vote-count" id="count-a">0</div>
-                <button class="vote-button" onclick="handleVote('B')" data-option="B">B</button>
+                <button class="vote-button" data-option="B">B</button>
                 <div class="vote-count" id="count-b">0</div>
-                <button class="vote-button" onclick="handleVote('C')" data-option="C">C</button>
+                <button class="vote-button" data-option="C">C</button>
                 <div class="vote-count" id="count-c">0</div>
             </div>
         </div>
@@ -157,7 +157,7 @@
             <div id="chat-messages"></div>
             <input type="text" id="chat-input" placeholder="Type your message...">
             <button onclick="sendMessage()">Send</button>
-            <div id="timer">Ne xt game in: <span id="time-left">30</span>s</div>
+            <div id="timer">Next game in: <span id="time-left">30</span>s</div>
         </div>
     </div>
 
