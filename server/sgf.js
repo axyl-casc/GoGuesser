@@ -28,10 +28,21 @@ function findAnswer(content) {
     return match ? match[1] : null;
 }
 
-function getRandomSGF() {
+function getRandomSGF(excludeName = null) {
     const files = getSGFFiles();
     if (!files.length) return null;
-    const randomFile = files[Math.floor(Math.random() * files.length)];
+
+    let randomFile = files[Math.floor(Math.random() * files.length)];
+
+    // Try to avoid returning the same file consecutively when possible
+    if (excludeName && files.length > 1) {
+        let attempts = 0;
+        while (randomFile.name === excludeName && attempts < 10) {
+            randomFile = files[Math.floor(Math.random() * files.length)];
+            attempts++;
+        }
+    }
+
     const sgfContent = fs.readFileSync(randomFile.path, 'utf8');
     return {
         name: randomFile.name.split('_')[0],
