@@ -13,5 +13,21 @@
         <input type="text" name="username" placeholder="Enter your name" required>
         <button type="submit">Join</button>
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            const input = form.querySelector('input[name="username"]');
+            const savedName = localStorage.getItem('username');
+
+            if (savedName) {
+                input.value = savedName;
+                form.submit();
+            }
+
+            form.addEventListener('submit', () => {
+                localStorage.setItem('username', input.value.trim());
+            });
+        });
+    </script>
 </body>
 </html>
