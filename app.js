@@ -147,6 +147,14 @@ io.on('connection', (socket) => {
             io.emit('vote-update', voteCounts);
         }
     });
+
+    // Handle vote removals when a user changes their choice
+    socket.on('vote-remove', (option) => {
+        if (['A', 'B', 'C'].includes(option) && voteCounts[option] > 0) {
+            voteCounts[option]--;
+            io.emit('vote-update', voteCounts);
+        }
+    });
 });
 
 // Start server
