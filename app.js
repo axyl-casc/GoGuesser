@@ -13,11 +13,7 @@ const io = new Server(server);
 const sessionMiddleware = session({
     secret: 'change-this-secret',
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-        sameSite: 'none',
-        secure: true
-    }
+    saveUninitialized: false
 });
 
 app.use(express.urlencoded({ extended: false }));
