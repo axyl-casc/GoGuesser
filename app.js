@@ -3,10 +3,25 @@ const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
 const fs = require('fs');
+const session = require('express-session');
+const sanitizeHtml = require('sanitize-html');
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+
+const sessionMiddleware = session({
+    secret: 'change-this-secret',
+    resave: false,
+    saveUninitialized: false
+});
+
+app.use(express.urlencoded({ extended: false }));
+app.use(sessionMiddleware);
+
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, {}, next);
+});
 
 // Configuration
 const SGF_INTERVAL = 30; // Seconds between SGF changes
@@ -66,10 +81,46 @@ function startTimers() {
 }
 
 // Server setup
-app.use(express.static('public'));
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.post('/login', (req, res) => {
+    const username = (req.body.username || '').trim();
+    if (username) {
+        req.session.user = username;
+        return res.redirect('/');
+    }
+    res.redirect('/login');
+});
+
+app.post('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/login');
+    });
+});
+
+app.get('/', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // WebSocket handlers
+io.use((socket, next) => {
+    if (socket.request.session && socket.request.session.user) {
+        return next();
+    }
+    next(new Error('unauthorized'));
+});
+
 io.on('connection', (socket) => {
+    const username = socket.request.session.user;
+
     // Send initial state
     if (currentSGF) {
         socket.emit('sgf-data', {
@@ -81,10 +132,11 @@ io.on('connection', (socket) => {
     
     // Handle chat messages
     socket.on('chat-message', (message) => {
+        const clean = sanitizeHtml(message, { allowedTags: [], allowedAttributes: {} });
         io.emit('chat-message', {
-            text: message,
+            text: clean,
             timestamp: new Date().toISOString(),
-            user: socket.id.slice(0, 6)
+            user: username
         });
     });
 

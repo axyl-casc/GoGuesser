@@ -78,11 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('chat-message', (msg) => {
         const div = document.createElement('div');
         div.className = 'message';
-        div.innerHTML = `
-            <span class="user">[${msg.user}]</span>
-            ${msg.text}
-            <span class="time">${new Date(msg.timestamp).toLocaleTimeString()}</span>
-        `;
+
+        const userSpan = document.createElement('span');
+        userSpan.className = 'user';
+        userSpan.textContent = `[${msg.user}]`;
+
+        const textNode = document.createTextNode(` ${msg.text} `);
+
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'time';
+        timeSpan.textContent = new Date(msg.timestamp).toLocaleTimeString();
+
+        div.appendChild(userSpan);
+        div.appendChild(textNode);
+        div.appendChild(timeSpan);
+
         chatMessages.appendChild(div);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     });
