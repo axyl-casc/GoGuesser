@@ -35,8 +35,17 @@ function initSocket(io, sessionMiddleware) {
             timer--;
             io.emit('time-update', timer);
             if (timer <= 0) {
-                timer = SGF_INTERVAL;
-                sendNewSGF();
+                io.emit('answer', currentSGF ? currentSGF.answer : null);
+                io.emit('chat-message', {
+                    text: `The correct answer was: ${currentSGF ? currentSGF.answer : '?'}`,
+                    rank: '',
+                    timestamp: new Date().toISOString(),
+                    user: 'System'
+                });
+                setTimeout(() => {
+                    timer = SGF_INTERVAL;
+                    sendNewSGF();
+                }, 1000);
             }
         }, 1000);
     }
