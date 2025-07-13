@@ -7,9 +7,20 @@ function getSGFFiles() {
         .filter(file => path.extname(file) === '.sgf')
         .map(file => ({
             path: path.join(SGF_DIR, file),
-            name: file,
-            move: parseInt(file.split('_').pop().replace('.sgf', '')) || 0
+            name: file
         }));
+}
+
+function findPuzzleMove(content) {
+    const nodes = content.split(';').slice(1);
+    let moves = 0;
+    for (const node of nodes) {
+        if (/^[BW]\[/.test(node.trim())) moves++;
+        if (node.includes('LB[') && /:[ABC]/.test(node)) {
+            return moves;
+        }
+    }
+    return 0;
 }
 
 function getRandomSGF() {
@@ -19,7 +30,7 @@ function getRandomSGF() {
     const sgfContent = fs.readFileSync(randomFile.path, 'utf8');
     return {
         name: randomFile.name.split('_')[0],
-        move: randomFile.move,
+        move: findPuzzleMove(sgfContent),
         content: sgfContent
     };
 }
