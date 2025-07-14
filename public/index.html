@@ -145,6 +145,26 @@
             left: 10px;
             padding: 5px 10px;
         }
+
+        #answer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+        }
+
+        .vote-button.correct-answer {
+            background: #8BC34A;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -167,6 +187,7 @@
                 <div class="vote-count" id="count-c">0</div>
             </div>
         </div>
+        <div id="answer-overlay"><span id="answer-text"></span></div>
     </div>
 
 </body>
