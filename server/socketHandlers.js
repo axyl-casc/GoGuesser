@@ -1,6 +1,6 @@
 const sanitizeHtml = require('sanitize-html');
 const filterSwears = require('./swearFilter');
-const { SGF_INTERVAL } = require('./config');
+const { SGF_INTERVAL, WAIT_INTERVAL } = require('./config');
 const { getRandomSGF } = require('./sgf');
 
 function initSocket(io, sessionMiddleware) {
@@ -16,21 +16,23 @@ function initSocket(io, sessionMiddleware) {
     });
 
     let timer = SGF_INTERVAL;
+    let waiting = false;
     let currentSGF = null;
     let lastSGFName = null;
     let voteCounts = { A: 0, B: 0, C: 0 };
-    let answerSent = false;
 
     function sendNewSGF() {
         const sgf = getRandomSGF(lastSGFName);
         if (!sgf) return;
-        answerSent = false;
         currentSGF = sgf;
         lastSGFName = sgf.name;
+        waiting = false;
+        timer = SGF_INTERVAL;
         voteCounts = { A: 0, B: 0, C: 0 };
         io.emit('sgf-data', {
             ...currentSGF,
-            timer: SGF_INTERVAL,
+            timer,
+            waiting,
             votes: voteCounts
         });
     }
@@ -39,9 +41,8 @@ function initSocket(io, sessionMiddleware) {
         setInterval(() => {
             timer--;
             if (timer <= 0) {
-                timer = 0;
-                if (!answerSent) {
-                    answerSent = true;
+                if (!waiting) {
+                    waiting = true;
                     io.emit('answer', currentSGF ? currentSGF.answer : null);
                     io.emit('chat-message', {
                         text: `The correct answer was: ${currentSGF ? currentSGF.answer : '?'}`,
@@ -49,13 +50,12 @@ function initSocket(io, sessionMiddleware) {
                         timestamp: new Date().toISOString(),
                         user: 'System'
                     });
-                    setTimeout(() => {
-                        timer = SGF_INTERVAL;
-                        sendNewSGF();
-                    }, 10000);
+                    timer = WAIT_INTERVAL;
+                } else {
+                    sendNewSGF();
                 }
             }
-            io.emit('time-update', timer);
+            io.emit('time-update', { time: timer, waiting });
         }, 1000);
     }
 
@@ -71,6 +71,7 @@ function initSocket(io, sessionMiddleware) {
             socket.emit('sgf-data', {
                 ...currentSGF,
                 timer,
+                waiting,
                 votes: voteCounts
             });
         }
