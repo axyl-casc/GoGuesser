@@ -113,13 +113,26 @@ document.addEventListener('DOMContentLoaded', () => {
         timeLeft.textContent = time;
     });
 
+    const answerOverlay = document.getElementById('answer-overlay');
+    const answerText = document.getElementById('answer-text');
+
     socket.on('answer', (correct) => {
-        const original = document.body.style.backgroundColor;
         const isCorrect = userVote && userVote === correct;
-        document.body.style.backgroundColor = isCorrect ? '#8BC34A' : '#F44336';
+        answerText.textContent = (isCorrect ? 'Correct!' : 'Wrong!') + ` The answer was ${correct}`;
+        answerOverlay.style.display = 'flex';
+
+        document.querySelectorAll('.vote-button').forEach(btn => {
+            if(btn.dataset.option === correct) {
+                btn.classList.add('correct-answer');
+            } else {
+                btn.classList.remove('correct-answer');
+            }
+        });
+
         setTimeout(() => {
-            document.body.style.backgroundColor = original || '';
-        }, 500);
+            answerOverlay.style.display = 'none';
+            document.querySelectorAll('.vote-button').forEach(btn => btn.classList.remove('correct-answer'));
+        }, 5000);
     });
 
     // Event listeners
