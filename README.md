@@ -1,6 +1,6 @@
 # GoGuesser
 
-This is a small Node.js app for reviewing Go problems with real-time voting and chat.
+This is a small Node.js app for playing through Go problems with real-time voting and chat.
 
 Messages in the chat are rate limited to **one per second** per user.
 
@@ -28,3 +28,9 @@ Each problem lets you choose between answers **A**, **B** and **C**:
 - **C** – a mistake or clearly suboptimal move.
 
 Click a button to vote. You can change your vote while the timer is running.
+
+## Contributing
+
+This project is launched from a separate Go playing application which passes the user's rank in the URL as `rank`. The login page stores this value and displays it with chat messages. An **Exit** button is available so the host app can close the session by calling `exitApp()`.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
