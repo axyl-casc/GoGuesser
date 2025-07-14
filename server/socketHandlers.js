@@ -103,11 +103,13 @@ function initSocket(io, sessionMiddleware) {
             }
 
             const filtered = filterSwears(clean);
+            const filteredRank = filterSwears(rank);
+            const filteredUser = filterSwears(username);
             io.emit('chat-message', {
                 text: filtered,
-                rank,
+                rank: filteredRank,
                 timestamp: new Date().toISOString(),
-                user: username
+                user: filteredUser
             });
         });
 
