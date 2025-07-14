@@ -118,8 +118,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('answer', (correct) => {
         const isCorrect = userVote && userVote === correct;
-        answerText.textContent = (isCorrect ? 'Correct!' : 'Wrong!') + ` The answer was ${correct}`;
-        answerOverlay.style.display = 'flex';
+        answerText.textContent = '';
+        answerOverlay.classList.remove('flash-correct', 'flash-wrong');
+        answerOverlay.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
+        answerOverlay.style.display = 'block';
 
         document.querySelectorAll('.vote-button').forEach(btn => {
             if(btn.dataset.option === correct) {
@@ -131,8 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             answerOverlay.style.display = 'none';
+            answerOverlay.classList.remove('flash-correct', 'flash-wrong');
             document.querySelectorAll('.vote-button').forEach(btn => btn.classList.remove('correct-answer'));
-        }, 5000);
+        }, 1000);
     });
 
     // Event listeners
