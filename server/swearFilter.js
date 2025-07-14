@@ -1,14 +1,12 @@
-const bannedWords = [
-    'fuck',
-    'shit',
-    'damn',
-    'crap',
-    'bitch',
-    'asshole'
-];
+const bannedWords = require('profane-words');
+
+function escapeRegex(word) {
+    return word.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+}
+
+const regex = new RegExp(`(?:${bannedWords.map(escapeRegex).join('|')})`, 'gi');
 
 function filterSwears(text) {
-    const regex = new RegExp(`\\b(${bannedWords.join('|')})\\b`, 'gi');
     return text.replace(regex, match => '*'.repeat(match.length));
 }
 
