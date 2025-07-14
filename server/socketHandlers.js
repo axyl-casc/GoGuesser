@@ -67,6 +67,12 @@ function initSocket(io, sessionMiddleware) {
 
     io.on('connection', socket => {
         const username = socket.request.session.user;
+        socket.emit('chat-message', {
+            text: 'This game is a work in progress. Source code available at https://github.com/axyl-casc/GoGuesser',
+            rank: '',
+            timestamp: new Date().toISOString(),
+            user: 'System'
+        });
         if (currentSGF) {
             socket.emit('sgf-data', {
                 ...currentSGF,
