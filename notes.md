@@ -1,3 +1,3 @@
-- swear filter
+- ~~swear filter~~
 - auto login
 - score
