@@ -1,4 +1,5 @@
 const sanitizeHtml = require('sanitize-html');
+const filterSwears = require('./swearFilter');
 const { SGF_INTERVAL } = require('./config');
 const { getRandomSGF } = require('./sgf');
 
@@ -84,8 +85,9 @@ function initSocket(io, sessionMiddleware) {
             const text = typeof data === 'string' ? data : data.text;
             const rank = data && data.rank ? data.rank : '?';
             const clean = sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} });
+            const filtered = filterSwears(clean);
             io.emit('chat-message', {
-                text: clean,
+                text: filtered,
                 rank,
                 timestamp: new Date().toISOString(),
                 user: username
