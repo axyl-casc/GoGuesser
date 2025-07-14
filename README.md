@@ -13,11 +13,15 @@ continuously without needing to press an update button.
    ```bash
    npm install
    ```
-2. Start the server:
+2. Set a session secret (recommended in production):
+   ```bash
+   export SESSION_SECRET=your_secret_here
+   ```
+3. Start the server:
    ```bash
    node app.js
    ```
-3. Open `http://localhost:3000` in your browser.
+4. Open `http://localhost:3000` in your browser.
    
 ## Voting (A,B,C order may change)
 
@@ -29,8 +33,17 @@ Each problem lets you choose between answers **A**, **B** and **C**:
 
 Click a button to vote. You can change your vote while the timer is running.
 
+## SGF Puzzles
+
+Problem files are loaded from the `sgf` directory. You can drop additional `.sgf` files there to use your own set of puzzles. The app will rotate through these files automatically every 30 seconds.
+
 ## Contributing
 
 This project is launched from a separate Go playing application which passes the user's rank in the URL as `rank`. The login page stores this value and displays it with chat messages. An **Exit** button is available so the host app can close the session by calling `exitApp()`.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+## Third-party Licenses
+
+The in-browser Go board comes from [WGo.js](http://wgo.waltheri.net/) and is
+released under the MIT license.
