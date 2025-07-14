@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
     const timeLeft = document.getElementById('time-left');
+    const timerLabel = document.getElementById('timer-label');
     const voteButtons = {
         A: document.getElementById('count-a'),
         B: document.getElementById('count-b'),
@@ -75,6 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
         disableBoardInteractions();
         userVote = null;
         document.querySelectorAll('.vote-button').forEach(btn => btn.classList.remove('selected'));
+
+        // Update timer display based on round state
+        if(data && typeof data.timer !== 'undefined') {
+            timeLeft.textContent = data.timer;
+            timerLabel.textContent = data.waiting ? 'Next game in' : 'Round ends in';
+        }
     });
 
     // Vote updates
@@ -109,8 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Timer updates
-    socket.on('time-update', (time) => {
-        timeLeft.textContent = time;
+    socket.on('time-update', (data) => {
+        if (typeof data === 'object') {
+            timeLeft.textContent = data.time;
+            timerLabel.textContent = data.waiting ? 'Next game in' : 'Round ends in';
+        } else {
+            timeLeft.textContent = data;
+        }
     });
 
     const answerOverlay = document.getElementById('answer-overlay');
