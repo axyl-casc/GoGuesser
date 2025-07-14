@@ -43,12 +43,18 @@
 
         #vote-container {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: row;
+            gap: 20px;
             padding: 20px;
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .vote-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .vote-button {
@@ -182,12 +188,18 @@
         <div id="game-section">
             <div id="board-container"></div>
             <div id="vote-container">
-                <button class="vote-button" data-option="A">A</button>
-                <div class="vote-count" id="count-a">0</div>
-                <button class="vote-button" data-option="B">B</button>
-                <div class="vote-count" id="count-b">0</div>
-                <button class="vote-button" data-option="C">C</button>
-                <div class="vote-count" id="count-c">0</div>
+                <div class="vote-option">
+                    <button class="vote-button" data-option="A">A</button>
+                    <div class="vote-count" id="count-a">0</div>
+                </div>
+                <div class="vote-option">
+                    <button class="vote-button" data-option="B">B</button>
+                    <div class="vote-count" id="count-b">0</div>
+                </div>
+                <div class="vote-option">
+                    <button class="vote-button" data-option="C">C</button>
+                    <div class="vote-count" id="count-c">0</div>
+                </div>
             </div>
         </div>
         <div id="answer-overlay"><span id="answer-text"></span></div>
