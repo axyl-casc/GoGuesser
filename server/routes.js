@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const filterSwears = require('./swearFilter');
 
 function setupRoutes(app) {
     app.get('/login', (req, res) => {
@@ -7,7 +8,8 @@ function setupRoutes(app) {
     });
 
     app.post('/login', (req, res) => {
-        const username = (req.body.username || '').trim();
+        const rawName = (req.body.username || '').trim();
+        const username = filterSwears(rawName);
         if (username) {
             req.session.user = username;
             return res.redirect('/');
