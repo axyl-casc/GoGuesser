@@ -18,10 +18,12 @@ function initSocket(io, sessionMiddleware) {
     let currentSGF = null;
     let lastSGFName = null;
     let voteCounts = { A: 0, B: 0, C: 0 };
+    let answerSent = false;
 
     function sendNewSGF() {
         const sgf = getRandomSGF(lastSGFName);
         if (!sgf) return;
+        answerSent = false;
         currentSGF = sgf;
         lastSGFName = sgf.name;
         voteCounts = { A: 0, B: 0, C: 0 };
@@ -35,20 +37,24 @@ function initSocket(io, sessionMiddleware) {
     function startTimers() {
         setInterval(() => {
             timer--;
-            io.emit('time-update', timer);
             if (timer <= 0) {
-                io.emit('answer', currentSGF ? currentSGF.answer : null);
-                io.emit('chat-message', {
-                    text: `The correct answer was: ${currentSGF ? currentSGF.answer : '?'}`,
-                    rank: '',
-                    timestamp: new Date().toISOString(),
-                    user: 'System'
-                });
-                setTimeout(() => {
-                    timer = SGF_INTERVAL;
-                    sendNewSGF();
-                }, 10000);
+                timer = 0;
+                if (!answerSent) {
+                    answerSent = true;
+                    io.emit('answer', currentSGF ? currentSGF.answer : null);
+                    io.emit('chat-message', {
+                        text: `The correct answer was: ${currentSGF ? currentSGF.answer : '?'}`,
+                        rank: '',
+                        timestamp: new Date().toISOString(),
+                        user: 'System'
+                    });
+                    setTimeout(() => {
+                        timer = SGF_INTERVAL;
+                        sendNewSGF();
+                    }, 10000);
+                }
             }
+            io.emit('time-update', timer);
         }, 1000);
     }
 
