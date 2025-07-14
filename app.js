@@ -10,8 +10,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+const sessionSecret = process.env.SESSION_SECRET || 'change-this-secret';
 const sessionMiddleware = session({
-    secret: 'change-this-secret',
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false
 });
