@@ -2,7 +2,7 @@
 
 This is a small Node.js app for playing through Go problems with real-time voting and chat.
 
-Messages in the chat are rate limited to **one per second** per user.
+Messages in the chat are rate limited to **one per second** per user. Each message can contain at most **256 characters**.
 
 Vote counts are broadcast every 100 ms so the A/B/C buttons update
 continuously without needing to press an update button.

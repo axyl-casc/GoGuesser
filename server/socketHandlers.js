@@ -89,9 +89,19 @@ function initSocket(io, sessionMiddleware) {
             }
             socket.lastMessageTime = now;
 
-            const text = typeof data === 'string' ? data : data.text;
+            const MAX_LENGTH = 256;
+            let text = typeof data === 'string' ? data : data.text;
             const rank = data && data.rank ? data.rank : '?';
-            const clean = sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} });
+
+            if (text.length > MAX_LENGTH) {
+                text = text.slice(0, MAX_LENGTH);
+            }
+
+            let clean = sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} });
+            if (clean.length > MAX_LENGTH) {
+                clean = clean.slice(0, MAX_LENGTH);
+            }
+
             const filtered = filterSwears(clean);
             io.emit('chat-message', {
                 text: filtered,
