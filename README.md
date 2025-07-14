@@ -2,6 +2,8 @@
 
 This is a small Node.js app for reviewing Go problems with real-time voting and chat.
 
+Messages in the chat are rate limited to **one per second** per user.
+
 Vote counts are broadcast every 100 ms so the A/B/C buttons update
 continuously without needing to press an update button.
 

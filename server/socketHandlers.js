@@ -69,6 +69,12 @@ function initSocket(io, sessionMiddleware) {
         }
 
         socket.on('chat-message', data => {
+            const now = Date.now();
+            if (socket.lastMessageTime && now - socket.lastMessageTime < 1000) {
+                return; // limit to 1 message per second
+            }
+            socket.lastMessageTime = now;
+
             const text = typeof data === 'string' ? data : data.text;
             const rank = data && data.rank ? data.rank : '?';
             const clean = sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} });
