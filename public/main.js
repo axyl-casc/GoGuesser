@@ -148,6 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('chat-input').addEventListener('keypress', (e) => {
         if(e.key === 'Enter') sendMessage();
     });
+
+    document.getElementById('chat-toggle').addEventListener('click', toggleChat);
 });
 
 function sendMessage() {
@@ -161,4 +163,16 @@ function sendMessage() {
 
 function exitApp() {
     window.close();
+}
+
+function toggleChat() {
+    const chat = document.getElementById('chat-container');
+    const btn = document.getElementById('chat-toggle');
+    if (chat.style.display === 'none') {
+        chat.style.display = 'flex';
+        btn.textContent = 'Hide Chat';
+    } else {
+        chat.style.display = 'none';
+        btn.textContent = 'Show Chat';
+    }
 }

@@ -154,6 +154,13 @@
             padding: 5px 10px;
         }
 
+        #chat-toggle {
+            position: fixed;
+            top: 10px;
+            left: 80px;
+            padding: 5px 10px;
+        }
+
         #answer-overlay {
             display: none;
             position: fixed;
@@ -180,6 +187,7 @@
 </head>
 <body>
     <button id="exit-button" onclick="exitApp()">Exit</button>
+    <button id="chat-toggle" onclick="toggleChat()">Hide Chat</button>
     <div id="main-container">
         <div id="chat-container">
             <div id="chat-messages"></div>
