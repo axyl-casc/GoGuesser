@@ -165,11 +165,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function sendMessage() {
-    const message = document.getElementById('chat-input').value.trim();
+    const input = document.getElementById('chat-input');
+    let message = input.value.trim();
+    const MAX_LENGTH = 256;
+    if (message.length > MAX_LENGTH) {
+        message = message.slice(0, MAX_LENGTH);
+    }
     if(message) {
         const rank = localStorage.getItem('local_rank') || '?';
         socket.emit('chat-message', { text: message, rank });
-        document.getElementById('chat-input').value = '';
+        input.value = '';
     }
 }
 
