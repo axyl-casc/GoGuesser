@@ -18,14 +18,12 @@ function initSocket(io, sessionMiddleware) {
     let timer = SGF_INTERVAL;
     let waiting = false;
     let currentSGF = null;
-    let lastSGFName = null;
     let voteCounts = { A: 0, B: 0, C: 0 };
 
     function sendNewSGF() {
-        const sgf = getRandomSGF(lastSGFName);
+        const sgf = getRandomSGF();
         if (!sgf) return;
         currentSGF = sgf;
-        lastSGFName = sgf.name;
         waiting = false;
         timer = SGF_INTERVAL;
         voteCounts = { A: 0, B: 0, C: 0 };
