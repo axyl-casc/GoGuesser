@@ -31,6 +31,12 @@
             flex: 1;
         }
 
+        #side-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
         #board-container {
             width: 60vh;
             height: 60vh;
@@ -192,23 +198,25 @@
             <div id="chat-messages"></div>
             <input type="text" id="chat-input" placeholder="Type your message...">
             <button onclick="sendMessage()">Send</button>
-            <div id="timer"><span id="timer-label">Round ends in</span>: <span id="time-left">30</span>s</div>
         </div>
         <div id="game-section">
             <div id="board-container"></div>
-            <div id="vote-container">
-                <div class="vote-option">
-                    <button class="vote-button" data-option="A">A</button>
-                    <div class="vote-count" id="count-a">0</div>
+            <div id="side-container">
+                <div id="vote-container">
+                    <div class="vote-option">
+                        <button class="vote-button" data-option="A">A</button>
+                        <div class="vote-count" id="count-a">0</div>
+                    </div>
+                    <div class="vote-option">
+                        <button class="vote-button" data-option="B">B</button>
+                        <div class="vote-count" id="count-b">0</div>
+                    </div>
+                    <div class="vote-option">
+                        <button class="vote-button" data-option="C">C</button>
+                        <div class="vote-count" id="count-c">0</div>
+                    </div>
                 </div>
-                <div class="vote-option">
-                    <button class="vote-button" data-option="B">B</button>
-                    <div class="vote-count" id="count-b">0</div>
-                </div>
-                <div class="vote-option">
-                    <button class="vote-button" data-option="C">C</button>
-                    <div class="vote-count" id="count-c">0</div>
-                </div>
+                <div id="timer"><span id="timer-label">Round ends in</span>: <span id="time-left">30</span>s</div>
             </div>
         </div>
         <div id="answer-overlay"><span id="answer-text"></span></div>
