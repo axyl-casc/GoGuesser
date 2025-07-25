@@ -62,6 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function clearVoteButtons() {
+        document.querySelectorAll('.vote-button').forEach(btn => {
+            btn.classList.remove('selected', 'correct-answer');
+        });
+    }
+
     // SGF updates
     socket.on('sgf-data', (data) => {
         // Clear previous board
@@ -89,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Disable board interactions
         disableBoardInteractions();
         userVote = null;
-        document.querySelectorAll('.vote-button').forEach(btn => btn.classList.remove('selected'));
+        clearVoteButtons();
 
         // Update timer display based on round state
         if(data && typeof data.timer !== 'undefined') {
@@ -165,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             answerOverlay.style.display = 'none';
             answerOverlay.classList.remove('flash-correct', 'flash-wrong');
-            document.querySelectorAll('.vote-button').forEach(btn => btn.classList.remove('correct-answer'));
         }, 1000);
     });
 
