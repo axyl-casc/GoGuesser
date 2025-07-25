@@ -28,20 +28,29 @@ function findAnswer(content) {
     return match ? match[1] : null;
 }
 
-function getRandomSGF(excludeName = null) {
-    const files = getSGFFiles();
-    if (!files.length) return null;
+// Keep a shuffled list of SGF files to ensure each puzzle is used once
+let remainingSGFs = [];
 
-    let randomFile = files[Math.floor(Math.random() * files.length)];
-
-    // Try to avoid returning the same file consecutively when possible
-    if (excludeName && files.length > 1) {
-        let attempts = 0;
-        while (randomFile.name === excludeName && attempts < 10) {
-            randomFile = files[Math.floor(Math.random() * files.length)];
-            attempts++;
-        }
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
+}
+
+function repopulateSGFs() {
+    remainingSGFs = shuffle(getSGFFiles());
+}
+
+function getRandomSGF() {
+    if (remainingSGFs.length === 0) {
+        repopulateSGFs();
+    }
+
+    if (remainingSGFs.length === 0) return null;
+
+    const randomFile = remainingSGFs.pop();
 
     const sgfContent = fs.readFileSync(randomFile.path, 'utf8');
     return {
