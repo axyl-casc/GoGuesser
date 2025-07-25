@@ -21,6 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
         B: document.getElementById('count-b'),
         C: document.getElementById('count-c')
     };
+    const scoreDisplay = document.getElementById('game-score');
+
+    function getGameScore() {
+        const val = parseInt(localStorage.getItem('game_score'), 10);
+        return isNaN(val) ? 0 : val;
+    }
+
+    function setGameScore(val) {
+        const normalized = Math.max(0, parseInt(val, 10) || 0);
+        localStorage.setItem('game_score', normalized);
+        if (scoreDisplay) scoreDisplay.textContent = normalized;
+    }
+
+    setGameScore(getGameScore());
 
     // Voting system
     function handleVote(option) {
@@ -130,6 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('answer', (correct) => {
         const isCorrect = userVote && userVote === correct;
+        if (isCorrect) {
+            setGameScore(getGameScore() + 1);
+        } else {
+            setGameScore(getGameScore() - 1);
+        }
         answerText.textContent = '';
         answerOverlay.classList.remove('flash-correct', 'flash-wrong');
         answerOverlay.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
