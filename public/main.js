@@ -211,9 +211,10 @@ function toggleChat() {
     const btn = document.getElementById('chat-toggle');
     if (chat.style.display === 'none' || chat.style.display === '') {
         chat.style.display = 'flex';
-        btn.textContent = 'Close Chat';
+        btn.style.display = 'none';
+        document.getElementById('chat-input').focus();
     } else {
         chat.style.display = 'none';
-        btn.textContent = 'Open Chat';
+        btn.style.display = 'block';
     }
 }

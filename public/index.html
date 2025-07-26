@@ -114,6 +114,20 @@
             border-radius: 4px;
         }
 
+        #chat-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #chat-close {
+            padding: 5px 10px;
+        }
+
+        #chat-send {
+            padding: 5px 10px;
+        }
+
         .message {
             margin-bottom: 10px;
             padding: 8px;
@@ -135,11 +149,10 @@
         }
 
         #chat-input {
-            width: 100%;
+            flex: 1;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-bottom: 10px;
         }
 
         #timer {
@@ -250,8 +263,11 @@
     <div id="main-container">
         <div id="chat-container">
             <div id="chat-messages"></div>
-            <input type="text" id="chat-input" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
+            <div id="chat-controls">
+                <button id="chat-close" onclick="toggleChat()">Close</button>
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="chat-send" onclick="sendMessage()">Send</button>
+            </div>
         </div>
         <div id="game-section">
             <div id="board-container"></div>
