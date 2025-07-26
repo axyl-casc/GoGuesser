@@ -209,11 +209,11 @@ function exitApp() {
 function toggleChat() {
     const chat = document.getElementById('chat-container');
     const btn = document.getElementById('chat-toggle');
-    if (chat.style.display === 'none') {
+    if (chat.style.display === 'none' || chat.style.display === '') {
         chat.style.display = 'flex';
-        btn.textContent = 'Hide Chat';
+        btn.textContent = 'Close Chat';
     } else {
         chat.style.display = 'none';
-        btn.textContent = 'Show Chat';
+        btn.textContent = 'Open Chat';
     }
 }
