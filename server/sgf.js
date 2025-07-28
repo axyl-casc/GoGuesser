@@ -15,7 +15,10 @@ function findPuzzleMove(content) {
     const nodes = content.split(';').slice(1);
     let moves = 0;
     for (const node of nodes) {
-        if (/^[BW]\[/.test(node.trim())) moves++;
+        const moveMatches = node.match(/(?:^|[^A-Z])(?:B|W)\[[^\]]+\]/g);
+        if (moveMatches) {
+            moves += moveMatches.length;
+        }
         if (node.includes('LB[') && /:[ABC]/.test(node)) {
             return moves;
         }
