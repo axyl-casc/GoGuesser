@@ -167,11 +167,14 @@ document.addEventListener('DOMContentLoaded', () => {
         answerOverlay.classList.add(isCorrect ? 'bg-green-500/50' : 'bg-red-500/50');
 
         document.querySelectorAll('.vote-button').forEach(btn => {
-            if(btn.dataset.option === correct) {
+            if (btn.dataset.option === correct) {
+                btn.classList.remove('bg-blue-500', 'bg-gray-200');
                 btn.classList.add('bg-green-500', 'text-white');
-                btn.classList.remove('bg-gray-200');
+            } else if (userVote && btn.dataset.option === userVote) {
+                btn.classList.remove('bg-gray-200', 'bg-green-500');
+                btn.classList.add('bg-blue-500', 'text-white', 'shadow');
             } else {
-                btn.classList.remove('bg-green-500', 'text-white');
+                btn.classList.remove('bg-green-500', 'bg-blue-500', 'text-white', 'shadow');
                 btn.classList.add('bg-gray-200');
             }
         });
