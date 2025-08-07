@@ -43,13 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove previous vote
         if(userVote) {
             socket.emit('vote-remove', userVote);
-            document.querySelector(`.vote-button[data-option="${userVote}"]`).classList.remove('selected');
+            document.querySelector(`.vote-button[data-option="${userVote}"]`).classList.remove('bg-blue-500', 'text-white', 'shadow');
         }
-        
+
         // Add new vote
         userVote = option;
         socket.emit('vote', option);
-        document.querySelector(`.vote-button[data-option="${option}"]`).classList.add('selected');
+        document.querySelector(`.vote-button[data-option="${option}"]`).classList.add('bg-blue-500', 'text-white', 'shadow');
     }
 
     // Disable board interactions
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function clearVoteButtons() {
         document.querySelectorAll('.vote-button').forEach(btn => {
-            btn.classList.remove('selected', 'correct-answer');
+            btn.classList.remove('bg-blue-500', 'text-white', 'shadow', 'bg-green-500');
         });
     }
 
@@ -92,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
             markLastMove: true
         });
 
+        document.querySelectorAll('.wgo-controls, .wgo-player-info').forEach(el => el.classList.add('hidden'));
+
         // Disable board interactions
         disableBoardInteractions();
         userVote = null;
@@ -114,17 +116,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Chat functionality
     socket.on('chat-message', (msg) => {
         const div = document.createElement('div');
-        div.className = 'message';
+        div.className = 'mb-2 p-2 bg-gray-100 rounded text-sm';
 
         const userSpan = document.createElement('span');
-        userSpan.className = 'user';
+        userSpan.className = 'text-gray-700 font-bold mr-2';
         const rankText = msg.rank ? msg.rank : '?';
         userSpan.textContent = `${msg.user} (${rankText})`;
 
         const textNode = document.createTextNode(` ${msg.text} `);
 
         const timeSpan = document.createElement('span');
-        timeSpan.className = 'time';
+        timeSpan.className = 'text-gray-500 text-xs float-right';
         timeSpan.textContent = new Date(msg.timestamp).toLocaleTimeString();
 
         div.appendChild(userSpan);
@@ -156,21 +158,20 @@ document.addEventListener('DOMContentLoaded', () => {
             setGameScore(getGameScore() - 1);
         }
         answerText.textContent = '';
-        answerOverlay.classList.remove('flash-correct', 'flash-wrong');
-        answerOverlay.classList.add(isCorrect ? 'flash-correct' : 'flash-wrong');
-        answerOverlay.style.display = 'block';
+        answerOverlay.classList.remove('hidden', 'bg-green-500/50', 'bg-red-500/50');
+        answerOverlay.classList.add(isCorrect ? 'bg-green-500/50' : 'bg-red-500/50');
 
         document.querySelectorAll('.vote-button').forEach(btn => {
             if(btn.dataset.option === correct) {
-                btn.classList.add('correct-answer');
+                btn.classList.add('bg-green-500', 'text-white');
             } else {
-                btn.classList.remove('correct-answer');
+                btn.classList.remove('bg-green-500', 'text-white');
             }
         });
 
         setTimeout(() => {
-            answerOverlay.style.display = 'none';
-            answerOverlay.classList.remove('flash-correct', 'flash-wrong');
+            answerOverlay.classList.add('hidden');
+            answerOverlay.classList.remove('bg-green-500/50', 'bg-red-500/50');
         }, 1000);
     });
 
@@ -209,12 +210,12 @@ function exitApp() {
 function toggleChat() {
     const chat = document.getElementById('chat-container');
     const btn = document.getElementById('chat-toggle');
-    if (chat.style.display === 'none' || chat.style.display === '') {
-        chat.style.display = 'flex';
-        btn.style.display = 'none';
+    if (chat.classList.contains('hidden')) {
+        chat.classList.remove('hidden');
+        btn.classList.add('hidden');
         document.getElementById('chat-input').focus();
     } else {
-        chat.style.display = 'none';
-        btn.style.display = 'block';
+        chat.classList.add('hidden');
+        btn.classList.remove('hidden');
     }
 }
