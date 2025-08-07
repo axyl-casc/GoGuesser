@@ -3,298 +3,48 @@
 <head>
     <title>Go Review</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="wgo/wgo.min.js"></script>
     <script src="wgo/wgo.player.min.js"></script>
     <script src="main.js"></script>
     <link rel="stylesheet" href="wgo/wgo.player.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            height: 95vh;
-            display: flex;
-            font-family: Arial, sans-serif;
-            background: #f0f0f0;
-            gap: 20px;
-        }
-
-        #main-container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            flex: 1;
-        }
-
-        #game-section {
-            display: flex;
-            gap: 20px;
-            flex: 1;
-        }
-
-        #side-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        #board-container {
-            width: 60vh;
-            height: 60vh;
-            min-width: 400px;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        #vote-container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .vote-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .vote-button {
-    position: relative;
-    overflow: hidden;
-    padding: 15px 25px;
-    font-size: 1.5em;
-}
-
-.vote-button.selected {
-    background: #2196F3;
-    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3);
-}
-
-.vote-button.selected::after {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2em;
-}
-        .vote-button:hover {
-            transform: scale(1.05);
-            background: #45a049;
-        }
-
-        .vote-count {
-            text-align: center;
-            font-size: 18px;
-            color: #666;
-            margin-top: 8px;
-        }
-
-        #chat-container {
-            width: 300px;
-            display: none;
-            flex-direction: column;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            box-sizing: border-box;
-        }
-
-        #chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-        }
-
-        #chat-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            width: 100%;
-        }
-
-        #chat-close {
-            padding: 5px 10px;
-        }
-
-        #chat-send {
-            padding: 5px 10px;
-        }
-
-        .message {
-            margin-bottom: 10px;
-            padding: 8px;
-            background: #f5f5f5;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-
-        .message .user {
-            color: #666;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        .message .time {
-            color: #999;
-            font-size: 0.8em;
-            float: right;
-        }
-
-        #chat-input {
-            flex: 1;
-            min-width: 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        #timer {
-            text-align: center;
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 10px;
-        }
-
-        #score-display {
-            text-align: center;
-            font-size: 1em;
-            margin-top: 10px;
-            color: #333;
-        }
-
-        .wgo-controls, .wgo-player-info {
-            display: none !important;
-        }
-
-        #exit-button {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            padding: 5px 10px;
-        }
-
-        #chat-toggle {
-            position: fixed;
-            top: 10px;
-            left: 80px;
-            padding: 5px 10px;
-        }
-
-        #answer-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 1000;
-        }
-
-        #answer-overlay.flash-correct {
-            background: rgba(0, 255, 0, 0.5);
-        }
-
-        #answer-overlay.flash-wrong {
-            background: rgba(255, 0, 0, 0.5);
-        }
-
-        .vote-button.correct-answer {
-            background: #8BC34A;
-            color: #fff;
-        }
-
-        @media (max-width: 600px) {
-            body {
-                flex-direction: column;
-                padding: 10px;
-                height: auto;
-            }
-
-            #main-container {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-
-            #game-section {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            #board-container {
-                width: 90vmin;
-                height: 90vmin;
-                min-width: 0;
-            }
-
-            #vote-container {
-                width: 100%;
-                justify-content: space-around;
-            }
-
-            #chat-container {
-                width: 100%;
-                max-height: 50vh;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                z-index: 1000;
-            }
-
-            #chat-toggle {
-                top: auto;
-                bottom: 10px;
-                left: 10px;
-            }
-        }
-    </style>
 </head>
-<body>
-    <button id="exit-button" onclick="exitApp()">Exit</button>
-    <button id="chat-toggle">Open Chat</button>
-    <div id="main-container">
-        <div id="chat-container">
-            <div id="chat-messages"></div>
-            <div id="chat-controls">
-                <button id="chat-close" onclick="toggleChat()">Close</button>
-                <input type="text" id="chat-input" placeholder="Type your message...">
-                <button id="chat-send" onclick="sendMessage()">Send</button>
+<body class="m-0 p-2 sm:p-5 h-auto sm:h-[95vh] flex flex-col sm:flex-row font-sans bg-gray-100 gap-2 sm:gap-5">
+    <button id="exit-button" onclick="exitApp()" class="fixed top-2 left-2 px-2 py-1 bg-gray-200 rounded">Exit</button>
+    <button id="chat-toggle" class="fixed top-2 left-20 px-2 py-1 bg-gray-200 rounded">Open Chat</button>
+    <div id="main-container" class="flex flex-col sm:flex-row gap-2 sm:gap-5 flex-1">
+        <div id="chat-container" class="hidden flex-col w-[300px] bg-white rounded-lg p-5 shadow box-border">
+            <div id="chat-messages" class="flex-1 overflow-y-auto mb-4 p-2 border border-gray-200 rounded"></div>
+            <div id="chat-controls" class="flex gap-2 items-center w-full">
+                <button id="chat-close" onclick="toggleChat()" class="px-2 py-1 bg-gray-200 rounded">Close</button>
+                <input type="text" id="chat-input" placeholder="Type your message..." class="flex-1 min-w-0 p-2 border border-gray-300 rounded">
+                <button id="chat-send" onclick="sendMessage()" class="px-2 py-1 bg-blue-500 text-white rounded">Send</button>
             </div>
         </div>
-        <div id="game-section">
-            <div id="board-container"></div>
-            <div id="side-container">
-                <div id="vote-container">
-                    <div class="vote-option">
-                        <button class="vote-button" data-option="A">A</button>
-                        <div class="vote-count" id="count-a">0</div>
+        <div id="game-section" class="flex flex-col sm:flex-row gap-2 sm:gap-5 flex-1 items-center">
+            <div id="board-container" class="w-[90vmin] h-[90vmin] sm:w-[60vh] sm:h-[60vh] sm:min-w-[400px] bg-white rounded-lg p-5 shadow"></div>
+            <div id="side-container" class="flex flex-col gap-5">
+                <div id="vote-container" class="flex w-full sm:w-auto justify-around sm:justify-start gap-5 p-5 bg-white rounded-lg shadow">
+                    <div class="vote-option flex flex-col items-center">
+                        <button class="vote-button relative overflow-hidden px-6 py-4 text-xl bg-gray-200 rounded transition-transform hover:scale-105 hover:bg-green-600" data-option="A">A</button>
+                        <div class="vote-count text-center text-lg text-gray-600 mt-2" id="count-a">0</div>
                     </div>
-                    <div class="vote-option">
-                        <button class="vote-button" data-option="B">B</button>
-                        <div class="vote-count" id="count-b">0</div>
+                    <div class="vote-option flex flex-col items-center">
+                        <button class="vote-button relative overflow-hidden px-6 py-4 text-xl bg-gray-200 rounded transition-transform hover:scale-105 hover:bg-green-600" data-option="B">B</button>
+                        <div class="vote-count text-center text-lg text-gray-600 mt-2" id="count-b">0</div>
                     </div>
-                    <div class="vote-option">
-                        <button class="vote-button" data-option="C">C</button>
-                        <div class="vote-count" id="count-c">0</div>
+                    <div class="vote-option flex flex-col items-center">
+                        <button class="vote-button relative overflow-hidden px-6 py-4 text-xl bg-gray-200 rounded transition-transform hover:scale-105 hover:bg-green-600" data-option="C">C</button>
+                        <div class="vote-count text-center text-lg text-gray-600 mt-2" id="count-c">0</div>
                     </div>
                 </div>
-                <div id="timer"><span id="timer-label">Round ends in</span>: <span id="time-left">30</span>s</div>
-                <div id="score-display">Score: <span id="game-score">0</span></div>
+                <div id="timer" class="text-center text-gray-600 text-sm mt-2"><span id="timer-label">Round ends in</span>: <span id="time-left">30</span>s</div>
+                <div id="score-display" class="text-center text-base mt-2 text-gray-800">Score: <span id="game-score">0</span></div>
             </div>
         </div>
-        <div id="answer-overlay"><span id="answer-text"></span></div>
+        <div id="answer-overlay" class="hidden fixed inset-0 z-[1000]"><span id="answer-text"></span></div>
     </div>
-
 </body>
 </html>
+
