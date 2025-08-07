@@ -14,9 +14,9 @@
     <button id="exit-button" onclick="exitApp()" class="fixed top-2 left-2 px-2 py-1 bg-gray-200 rounded">Exit</button>
     <button id="chat-toggle" class="fixed top-2 left-20 px-2 py-1 bg-gray-200 rounded">Open Chat</button>
     <div id="main-container" class="flex flex-col sm:flex-row gap-2 sm:gap-5 flex-1">
-        <div id="chat-container" class="hidden flex-col w-[300px] bg-white rounded-lg p-5 shadow box-border">
-            <div id="chat-messages" class="flex-1 overflow-y-auto mb-4 p-2 border border-gray-200 rounded"></div>
-            <div id="chat-controls" class="flex gap-2 items-center w-full">
+        <div id="chat-container" class="hidden flex flex-col h-full w-[300px] bg-white rounded-lg p-5 shadow box-border">
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-2 border border-gray-200 rounded"></div>
+            <div id="chat-controls" class="flex gap-2 items-center w-full mt-4">
                 <button id="chat-close" onclick="toggleChat()" class="px-2 py-1 bg-gray-200 rounded">Close</button>
                 <input type="text" id="chat-input" placeholder="Type your message..." class="flex-1 min-w-0 p-2 border border-gray-300 rounded">
                 <button id="chat-send" onclick="sendMessage()" class="px-2 py-1 bg-blue-500 text-white rounded">Send</button>
