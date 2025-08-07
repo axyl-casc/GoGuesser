@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     socket = io();
     let currentPlayer = null;
     let userVote = null;
+    let currentTime = 0;
+    let voteTime = 0;
     
     // DOM elements
     const chatMessages = document.getElementById('chat-messages');
@@ -50,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add new vote
         userVote = option;
+        voteTime = currentTime;
         socket.emit('vote', option);
         const current = document.querySelector(`.vote-button[data-option="${option}"]`);
         current.classList.remove('bg-gray-200');
@@ -102,12 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Disable board interactions
         disableBoardInteractions();
         userVote = null;
+        voteTime = 0;
         clearVoteButtons();
 
         // Update timer display based on round state
         if(data && typeof data.timer !== 'undefined') {
             timeLeft.textContent = data.timer;
             timerLabel.textContent = data.waiting ? 'Next game in' : 'Round ends in';
+            currentTime = data.timer;
         }
     });
 
@@ -147,8 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof data === 'object') {
             timeLeft.textContent = data.time;
             timerLabel.textContent = data.waiting ? 'Next game in' : 'Round ends in';
+            currentTime = data.time;
         } else {
             timeLeft.textContent = data;
+            currentTime = data;
         }
     });
 
@@ -158,10 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('answer', (correct) => {
         const isCorrect = userVote && userVote === correct;
         if (isCorrect) {
-            setGameScore(getGameScore() + 1);
+            setGameScore(getGameScore() + voteTime);
         } else {
             setGameScore(getGameScore() - 1);
         }
+        voteTime = 0;
         answerText.textContent = '';
         answerOverlay.classList.remove('hidden', 'bg-green-500/50', 'bg-red-500/50');
         answerOverlay.classList.add(isCorrect ? 'bg-green-500/50' : 'bg-red-500/50');
