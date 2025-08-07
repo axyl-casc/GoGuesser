@@ -39,17 +39,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Voting system
     function handleVote(option) {
         if(userVote === option) return;
-        
+
         // Remove previous vote
         if(userVote) {
             socket.emit('vote-remove', userVote);
-            document.querySelector(`.vote-button[data-option="${userVote}"]`).classList.remove('bg-blue-500', 'text-white', 'shadow');
+            const prev = document.querySelector(`.vote-button[data-option="${userVote}"]`);
+            prev.classList.remove('bg-blue-500', 'text-white', 'shadow');
+            prev.classList.add('bg-gray-200');
         }
 
         // Add new vote
         userVote = option;
         socket.emit('vote', option);
-        document.querySelector(`.vote-button[data-option="${option}"]`).classList.add('bg-blue-500', 'text-white', 'shadow');
+        const current = document.querySelector(`.vote-button[data-option="${option}"]`);
+        current.classList.remove('bg-gray-200');
+        current.classList.add('bg-blue-500', 'text-white', 'shadow');
     }
 
     // Disable board interactions
@@ -65,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function clearVoteButtons() {
         document.querySelectorAll('.vote-button').forEach(btn => {
             btn.classList.remove('bg-blue-500', 'text-white', 'shadow', 'bg-green-500');
+            btn.classList.add('bg-gray-200');
         });
     }
 
@@ -164,8 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.vote-button').forEach(btn => {
             if(btn.dataset.option === correct) {
                 btn.classList.add('bg-green-500', 'text-white');
+                btn.classList.remove('bg-gray-200');
             } else {
                 btn.classList.remove('bg-green-500', 'text-white');
+                btn.classList.add('bg-gray-200');
             }
         });
 
