@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         C: document.getElementById('count-c')
     };
     const scoreDisplay = document.getElementById('game-score');
+    const turnDisplay = document.getElementById('turn-display');
 
     function getGameScore() {
         const val = parseInt(localStorage.getItem('game_score'), 10);
@@ -107,6 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
         userVote = null;
         voteTime = 0;
         clearVoteButtons();
+
+        if (currentPlayer && currentPlayer.kifuReader && currentPlayer.kifuReader.game && turnDisplay) {
+            const turn = currentPlayer.kifuReader.game.turn;
+            turnDisplay.textContent = turn === WGo.B ? 'Black to play' : 'White to play';
+        }
 
         // Update timer display based on round state
         if(data && typeof data.timer !== 'undefined') {
