@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Chat functionality
     socket.on('chat-message', (msg) => {
         const div = document.createElement('div');
-        div.className = 'mb-2 p-2 bg-gray-100 rounded text-sm';
+        div.className = 'mb-2 p-2 bg-gray-100 rounded text-sm break-words';
 
         const userSpan = document.createElement('span');
         userSpan.className = 'text-gray-700 font-bold mr-2';
