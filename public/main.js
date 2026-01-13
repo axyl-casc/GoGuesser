@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isCorrect) {
             setGameScore(getGameScore() + voteTime);
         } else {
-            setGameScore(getGameScore() + voteTime - 30);
+            setGameScore(getGameScore());
         }
         voteTime = 0;
         answerText.textContent = '';
