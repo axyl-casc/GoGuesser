@@ -9,6 +9,28 @@
     <script src="wgo/wgo.player.min.js"></script>
     <script src="main.js"></script>
     <link rel="stylesheet" href="wgo/wgo.player.css">
+    <style>
+        #board-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #board-container .wgo-player-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #board-container .wgo-player-center {
+            float: none;
+            width: auto;
+        }
+
+        #board-container .wgo-player-board {
+            padding-top: 0 !important;
+        }
+    </style>
 </head>
 <body class="m-0 p-2 sm:p-5 h-auto sm:h-[95vh] flex flex-col sm:flex-row font-sans bg-gray-100 gap-2 sm:gap-5">
     <button id="exit-button" onclick="exitApp()" class="fixed top-2 left-2 px-2 py-1 bg-gray-200 rounded">Exit</button>
@@ -48,4 +70,3 @@
     </div>
 </body>
 </html>
-
