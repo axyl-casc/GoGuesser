@@ -28,7 +28,7 @@ continuously without needing to press an update button.
 Each problem lets you choose between answers **A**, **B** and **C**:
 
 - **A** – the move recommended by AI as the best play.
-- **B** – a strong professional move, though not the top AI choice.
+- **B** – a stronger move, though not the top AI choice.
 - **C** – a mistake or clearly suboptimal move.
 
 Click a button to vote. You can change your vote while the timer is running.
@@ -39,8 +39,6 @@ Problem files are loaded from the `sgf` directory. You can drop additional `.sgf
 For adding problems, Sabaki has been the least buggy SGF editor in our experience.
 
 ## Contributing
-
-This project is launched from a separate Go playing application which passes the user's rank in the URL as `rank`. The login page stores this value and displays it with chat messages. An **Exit** button is available so the host app can close the session by calling `exitApp()`.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
