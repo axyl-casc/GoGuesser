@@ -36,6 +36,7 @@ Click a button to vote. You can change your vote while the timer is running.
 ## SGF Puzzles
 
 Problem files are loaded from the `sgf` directory. You can drop additional `.sgf` files there to use your own set of puzzles. The app will rotate through these files automatically every 30 seconds.
+For adding problems, Sabaki has been the least buggy SGF editor in our experience.
 
 ## Contributing
 
