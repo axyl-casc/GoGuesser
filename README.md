@@ -35,8 +35,14 @@ Click a button to vote. You can change your vote while the timer is running.
 
 ## SGF Puzzles
 
+<<<<<<< Updated upstream
 Problem files are loaded from the `sgf` directory. You can drop additional `.sgf` files there to use your own set of puzzles. The app will rotate through these files automatically every 30 seconds.
 For adding problems, Sabaki has been the least buggy SGF editor in our experience.
+=======
+Problem files are loaded from the current month's numbered folder inside `sgf`, using the server's local date: `sgf/1` for January through `sgf/12` for December. Add `.sgf` files to the corresponding month folder to use your own puzzles. The app randomly cycles through that month's files without repeats until all have been used, selecting a new puzzle every 30 seconds. When the month changes, the next selection uses the new month's folder. If that folder is missing or empty, no new puzzle is selected.
+
+Each round also picks a random board orientation (0°, 90°, 180°, or 270°). Stones, setup positions, and A/B/C labels rotate together before the problem is displayed. Everyone shares the same orientation for that round, including players who join or reconnect partway through. The answer and scoring stay the same.
+>>>>>>> Stashed changes
 
 ## Contributing
 

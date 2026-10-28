@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="utf-8">
+    <title>Take a seat · GoGuesser</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#2c211c">
+    <link rel="icon" href="/assets/seal.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/theme.css">
 </head>
-<body class="font-sans flex h-screen items-center justify-center bg-gray-100">
-    <form method="POST" action="/login" class="bg-white p-5 rounded-lg shadow">
-        <input type="text" name="username" placeholder="Enter your name" required class="px-2 py-2 mr-2 border rounded">
-        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Join</button>
-    </form>
+<body class="login-page">
+    <header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="GoGuesser home"><img class="brand-seal" src="/assets/seal.svg" width="42" height="42" alt=""><span>GoGuesser<span class="brand-caption">THE ART OF THE NEXT MOVE</span></span></a><span class="login-header-note">An ancient game. A fresh perspective.</span></div></header>
+    <main class="login-main">
+        <section class="login-welcome"><p class="eyebrow"><span class="small-diamond"></span> WELCOME TO THE COURTYARD</p><h1>Slow down.<br>See the board.<br><em>Find your move.</em></h1><p>A quiet place to sharpen your intuition.<br>Study real Go positions, choose the next move,<br>and learn alongside a curious community.</p><div class="login-values"><span>30-second rounds</span><span class="small-diamond"></span><span>Endless discovery</span></div><div class="decorative-board" aria-hidden="true"><span class="decorative-stone stone-one"></span><span class="decorative-stone stone-two"></span><span class="decorative-stone stone-three"></span></div></section>
+        <section class="login-card choice-panel"><div class="panel-eyebrow"><span class="eyebrow">THERE’S A PLACE FOR YOU</span><svg class="lotus-icon" aria-hidden="true"><use href="/assets/icons.svg#lotus"></use></svg></div><h2>Take a seat.</h2><p class="panel-description">Every great game begins with a single move.</p><form method="POST" action="/login" class="login-form"><label for="username">What should we call you?</label><input id="username" type="text" name="username" placeholder="Your name" required maxlength="40" autocomplete="nickname"><button type="submit" class="primary-button">Enter the courtyard<svg aria-hidden="true"><use href="/assets/icons.svg#arrow"></use></svg></button></form><p class="login-note">No account needed. Just a little curiosity.</p><div class="panel-rule"><span></span><span class="small-diamond"></span><span></span></div><p class="login-quote">“The journey of a thousand miles<br>begins with a single step.”<span>— LAOZI</span></p></section>
+    </main>
+    <footer class="login-footer">Ancient game. Endless possibilities.</footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const urlRank = params.get('rank');
-            if (urlRank) {
-                localStorage.setItem('local_rank', urlRank);
-            }
-
-            const form = document.querySelector('form');
-            const input = form.querySelector('input[name="username"]');
+            const urlRank = new URLSearchParams(window.location.search).get('rank');
+            if (urlRank) localStorage.setItem('local_rank', urlRank);
+            const form = document.querySelector('.login-form');
+            const input = document.getElementById('username');
             const savedName = localStorage.getItem('username');
-
-            if (savedName) {
-                input.value = savedName;
+            if (savedName && savedName.trim()) {
+                input.value = savedName.trim().slice(0, 40);
                 form.submit();
             }
-
-            form.addEventListener('submit', () => {
-                localStorage.setItem('username', input.value.trim());
+            input.addEventListener('input', () => input.setCustomValidity(''));
+            form.addEventListener('submit', event => {
+                input.value = input.value.trim();
+                if (!input.value) {
+                    event.preventDefault();
+                    input.setCustomValidity('Please enter a name to take your seat.');
+                    input.reportValidity();
+                    return;
+                }
+                localStorage.setItem('username', input.value);
             });
         });
     </script>
 </body>
 </html>
-

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Go Review</title>
+    <meta charset="utf-8">
+    <title>GoGuesser · The Courtyard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< Updated upstream
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="wgo/wgo.min.js"></script>
@@ -41,42 +43,72 @@
             height: 100%;
         }
     </style>
+=======
+    <meta name="theme-color" content="#2c211c">
+    <link rel="icon" href="/assets/seal.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/wgo/wgo.player.css">
+    <link rel="stylesheet" href="/theme.css">
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/wgo/wgo.min.js" defer></script>
+    <script src="/wgo/wgo.player.min.js" defer></script>
+    <script src="/boardRotation.js" defer></script>
+    <script src="/main.js" defer></script>
+>>>>>>> Stashed changes
 </head>
-<body class="m-0 p-2 sm:p-5 h-auto sm:h-[95vh] flex flex-col sm:flex-row font-sans bg-gray-100 gap-2 sm:gap-5">
-    <button id="exit-button" onclick="exitApp()" class="fixed top-2 left-2 px-2 py-1 bg-gray-200 rounded">Exit</button>
-    <button id="chat-toggle" class="fixed top-2 left-20 px-2 py-1 bg-gray-200 rounded">Open Chat</button>
-    <div id="main-container" class="flex flex-col sm:flex-row gap-2 sm:gap-5 flex-1">
-        <div id="chat-container" class="hidden flex flex-col h-full w-[300px] bg-white rounded-lg p-5 shadow box-border">
-            <div id="chat-messages" class="flex-1 overflow-y-auto p-2 border border-gray-200 rounded"></div>
-            <div id="chat-controls" class="flex gap-2 items-center w-full mt-4">
-                <button id="chat-close" onclick="toggleChat()" class="px-2 py-1 bg-gray-200 rounded">Close</button>
-                <input type="text" id="chat-input" placeholder="Type your message..." class="flex-1 min-w-0 p-2 border border-gray-300 rounded">
-                <button id="chat-send" onclick="sendMessage()" class="px-2 py-1 bg-blue-500 text-white rounded">Send</button>
-            </div>
+<body class="game-page has-chat">
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="GoGuesser home"><img class="brand-seal" src="/assets/seal.svg" width="42" height="42" alt=""><span>GoGuesser<span class="brand-caption">THE ART OF THE NEXT MOVE</span></span></a>
+            <span class="header-motto"><span class="small-diamond"></span> A place to think.</span>
+            <nav class="header-actions" aria-label="Game controls">
+                <button class="text-button help-button" data-open-help><svg aria-hidden="true"><use href="/assets/icons.svg#book"></use></svg>How to play</button>
+                <button id="chat-toggle" class="outline-button" aria-label="Hide courtyard chat" aria-controls="chat-container" aria-expanded="true"><svg aria-hidden="true"><use href="/assets/icons.svg#chat"></use></svg><span id="chat-toggle-label">Hide chat</span><span id="chat-unread" class="unread-dot" hidden></span></button>
+                <button id="exit-button" class="icon-button" onclick="exitApp()" aria-label="Exit GoGuesser" title="Exit"><svg aria-hidden="true"><use href="/assets/icons.svg#exit"></use></svg></button>
+            </nav>
         </div>
-        <div id="game-section" class="flex flex-col sm:flex-row gap-2 sm:gap-5 flex-1 items-center">
-            <div id="board-container" class="w-[90vmin] h-[90vmin] sm:w-[60vh] sm:h-[60vh] sm:min-w-[400px] bg-white rounded-lg p-5 shadow"></div>
-            <div id="side-container" class="flex flex-col gap-5">
-                <div id="vote-container" class="flex w-full sm:w-auto justify-around sm:justify-start gap-5 p-5 bg-white rounded-lg shadow">
-                    <div class="vote-option flex flex-col items-center">
-                        <button class="vote-button relative overflow-hidden px-6 py-4 text-xl bg-gray-200 rounded transition-transform hover:scale-105 hover:bg-green-600" data-option="A">A</button>
-                        <div class="vote-count text-center text-lg text-gray-600 mt-2" id="count-a">0</div>
-                    </div>
-                    <div class="vote-option flex flex-col items-center">
-                        <button class="vote-button relative overflow-hidden px-6 py-4 text-xl bg-gray-200 rounded transition-transform hover:scale-105 hover:bg-green-600" data-option="B">B</button>
-                        <div class="vote-count text-center text-lg text-gray-600 mt-2" id="count-b">0</div>
-                    </div>
-                    <div class="vote-option flex flex-col items-center">
-                        <button class="vote-button relative overflow-hidden px-6 py-4 text-xl bg-gray-200 rounded transition-transform hover:scale-105 hover:bg-green-600" data-option="C">C</button>
-                        <div class="vote-count text-center text-lg text-gray-600 mt-2" id="count-c">0</div>
-                    </div>
+    </header>
+    <main class="site-main">
+        <div class="page-intro">
+            <div><p class="eyebrow"><span class="small-diamond"></span> THE COURTYARD <span class="intro-divider"></span> <span lang="zh">围棋</span></p><h1>A little stillness. A better move.</h1></div>
+            <p class="intro-description">Read the board. Trust your intuition.<br>Grow your game, one move at a time.</p>
+        </div>
+        <div id="main-container" class="game-layout">
+            <section id="game-section" class="board-panel" aria-label="Current Go problem">
+                <div class="board-topline"><span id="connection-status" class="live-status" role="status"><span class="status-dot"></span><span id="connection-label">CONNECTING</span></span><span id="board-size" class="board-size">THE GO BOARD</span></div>
+                <div class="board-frame">
+                    <span class="frame-corner top-left" aria-hidden="true"></span><span class="frame-corner top-right" aria-hidden="true"></span><span class="frame-corner bottom-left" aria-hidden="true"></span><span class="frame-corner bottom-right" aria-hidden="true"></span>
+                    <div id="board-container" role="img" aria-label="Go board. Choose one of the labeled moves A, B, or C using the move buttons."><div class="board-loading">Preparing the board…</div></div>
                 </div>
-                <div id="timer" class="text-center text-gray-600 text-sm mt-2"><span id="timer-label">Round ends in</span>: <span id="time-left">30</span>s</div>
-                <div id="score-display" class="text-center text-base mt-2 text-gray-800">Score: <span id="game-score">0</span></div>
-                <div id="turn-display" class="text-center text-base mt-2 text-gray-800"></div>
-            </div>
+                <div class="board-bottomline"><span class="turn-indicator"><span id="turn-stone" class="go-stone black" aria-hidden="true"></span><span id="turn-display">Awaiting the next problem</span></span><span class="board-note">Three possibilities. One best move.</span></div>
+            </section>
+            <aside id="side-container" class="side-container" aria-label="Choose your move">
+                <section class="choice-panel">
+                    <div class="panel-eyebrow"><span class="eyebrow">A MOMENT TO CONSIDER</span><svg class="lotus-icon" aria-hidden="true"><use href="/assets/icons.svg#lotus"></use></svg></div>
+                    <h2>What’s your <br>next move?</h2>
+                    <p class="panel-description">Study the position, then choose the<br class="desktop-break"> strongest move on the board.</p>
+                    <div id="timer" class="timer" role="timer" aria-label="Round time remaining"><div class="timer-copy"><svg aria-hidden="true"><use href="/assets/icons.svg#clock"></use></svg><span id="timer-label">Round ends in</span></div><span class="timer-value"><span id="time-left">—</span><span class="timer-unit">s</span></span></div>
+                    <div class="timer-track" aria-hidden="true"><div id="timer-progress" class="timer-progress"></div></div>
+                    <div id="vote-container" class="vote-container" role="group" aria-label="Vote for the best move">
+                        <button class="vote-button" data-option="A" aria-pressed="false" disabled><span class="vote-letter">A</span><span class="vote-copy"><span class="vote-title">Move A</span><span class="vote-meta"><span id="count-a">0</span> votes</span></span><span class="vote-indicator" aria-hidden="true"><svg><use href="/assets/icons.svg#arrow"></use></svg></span></button>
+                        <button class="vote-button" data-option="B" aria-pressed="false" disabled><span class="vote-letter">B</span><span class="vote-copy"><span class="vote-title">Move B</span><span class="vote-meta"><span id="count-b">0</span> votes</span></span><span class="vote-indicator" aria-hidden="true"><svg><use href="/assets/icons.svg#arrow"></use></svg></span></button>
+                        <button class="vote-button" data-option="C" aria-pressed="false" disabled><span class="vote-letter">C</span><span class="vote-copy"><span class="vote-title">Move C</span><span class="vote-meta"><span id="count-c">0</span> votes</span></span><span class="vote-indicator" aria-hidden="true"><svg><use href="/assets/icons.svg#arrow"></use></svg></span></button>
+                    </div>
+                    <p id="vote-hint" class="vote-hint" role="status">Your next move is a new possibility.</p>
+                    <div class="panel-rule"><span></span><span class="small-diamond"></span><span></span></div>
+                    <div id="score-display" class="score-display"><div><span class="eyebrow">YOUR JOURNEY</span><span class="score-caption">A little wiser, every round.</span></div><div class="score-value"><span id="game-score">0</span><span>POINTS</span></div></div>
+                </section>
+                <p class="keyboard-tip">Follow your instinct. Press <kbd>A</kbd> <kbd>B</kbd> or <kbd>C</kbd></p>
+            </aside>
+            <aside id="chat-container" class="chat-panel choice-panel" aria-labelledby="chat-title">
+                <div class="chat-header"><div><span class="eyebrow">THINK TOGETHER</span><h2 id="chat-title">Courtyard chat</h2></div><button id="chat-close" class="icon-button" aria-label="Hide chat"><svg aria-hidden="true"><use href="/assets/icons.svg#close"></use></svg></button></div>
+                <p class="chat-intro">A shared table for ideas and good company.</p>
+                <div id="chat-messages" class="chat-messages" role="log" aria-label="Chat messages" aria-live="polite" tabindex="0"></div>
+                <form id="chat-controls" class="chat-controls"><label class="sr-only" for="chat-input">Your message</label><input type="text" id="chat-input" placeholder="Share a thought…" maxlength="256" autocomplete="off"><button id="chat-send" class="primary-button" type="submit" aria-label="Send message"><svg aria-hidden="true"><use href="/assets/icons.svg#arrow"></use></svg></button></form>
+            </aside>
         </div>
-        <div id="answer-overlay" class="hidden fixed inset-0 z-[1000]"><span id="answer-text"></span></div>
-    </div>
+        <footer class="site-footer"><span>Ancient game. Endless possibilities.</span><span class="footer-ornament" aria-hidden="true">— <span class="small-diamond"></span> —</span><button class="text-button" data-open-help>New to the courtyard?<span aria-hidden="true"> ↗</span></button></footer>
+    </main>
+    <dialog id="help-dialog" class="help-dialog" aria-labelledby="help-title"><form method="dialog"><button class="icon-button dialog-close" aria-label="Close instructions"><svg aria-hidden="true"><use href="/assets/icons.svg#close"></use></svg></button></form><span class="eyebrow">WELCOME TO THE COURTYARD</span><h2 id="help-title">One board. Three possibilities.</h2><p>Each live round gives you 30 seconds to find the strongest move. Look for the A, B, and C labels on the board, then choose your move.</p><ol class="help-steps"><li><strong>Take in the position.</strong><span>The stone below the board tells you whose turn it is.</span></li><li><strong>Make your choice.</strong><span>Click a move or press A, B, or C. You can change your vote until time runs out.</span></li><li><strong>Learn, then begin again.</strong><span>The best move is revealed after each round. A correct answer earns the seconds remaining when you chose it.</span></li></ol><p class="help-note">Your points stay with you on this device. Open courtyard chat to talk through the position with other players.</p><form method="dialog"><button class="primary-button help-done">Take a seat <svg aria-hidden="true"><use href="/assets/icons.svg#arrow"></use></svg></button></form></dialog>
+    <div id="answer-overlay" class="answer-toast" role="status" hidden><svg aria-hidden="true"><use href="/assets/icons.svg#lotus"></use></svg><span id="answer-text"></span></div>
 </body>
 </html>

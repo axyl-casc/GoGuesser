@@ -20,7 +20,7 @@ An **Exit** button is required so the host app can close the session quickly. Th
 ## Coding Guidelines
 
 - Keep dependencies minimal and use idiomatic Node.js/JavaScript.
-- Make sure `npm test` runs without errors before submitting a pull request. (No tests are defined yet, but the command must succeed.)
+- Make sure `npm test` runs without errors before submitting a pull request. It checks board rotations, SGF replay, and shared round orientations.
 - Describe your changes clearly in the pull request body.
 
 ## Additional Notes

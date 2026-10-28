@@ -2,12 +2,20 @@ const fs = require('fs');
 const path = require('path');
 const { SGF_DIR } = require('./config');
 
-function getSGFFiles() {
-    return fs.readdirSync(SGF_DIR)
-        .filter(file => path.extname(file) === '.sgf')
+function getSGFFiles(month = new Date().getMonth() + 1) {
+    const monthDir = path.join(SGF_DIR, String(month));
+    let entries;
+    try {
+        entries = fs.readdirSync(monthDir, { withFileTypes: true });
+    } catch (error) {
+        if (error.code === 'ENOENT') return [];
+        throw error;
+    }
+    return entries
+        .filter(file => file.isFile() && path.extname(file.name) === '.sgf')
         .map(file => ({
-            path: path.join(SGF_DIR, file),
-            name: file
+            path: path.join(monthDir, file.name),
+            name: file.name
         }));
 }
 
@@ -33,6 +41,7 @@ function findAnswer(content) {
 
 // Keep a shuffled list of SGF files to ensure each puzzle is used once
 let remainingSGFs = [];
+let selectedMonth = null;
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -42,13 +51,15 @@ function shuffle(array) {
     return array;
 }
 
-function repopulateSGFs() {
-    remainingSGFs = shuffle(getSGFFiles());
+function repopulateSGFs(month) {
+    remainingSGFs = shuffle(getSGFFiles(month));
+    selectedMonth = month;
 }
 
 function getRandomSGF() {
-    if (remainingSGFs.length === 0) {
-        repopulateSGFs();
+    const month = new Date().getMonth() + 1;
+    if (selectedMonth !== month || remainingSGFs.length === 0) {
+        repopulateSGFs(month);
     }
 
     if (remainingSGFs.length === 0) return null;
@@ -58,6 +69,8 @@ function getRandomSGF() {
     const sgfContent = fs.readFileSync(randomFile.path, 'utf8');
     return {
         name: randomFile.name.split('_')[0],
+        // Pick once per round so all players and reconnects share an orientation.
+        rotation: Math.floor(Math.random() * 4),
         move: findPuzzleMove(sgfContent),
         content: sgfContent,
         answer: findAnswer(sgfContent)
