@@ -47,7 +47,7 @@ body:has(dialog[open]) { overflow: hidden; }
 .icon-button { display: grid; place-items: center; padding: 8px; background: transparent; color: var(--muted); }
 .icon-button:hover { background: #b59b6e16; color: var(--cream); }
 .unread-dot { background: var(--gold); width: 5px; height: 5px; border-radius: 50%; }
-.site-main { max-width: min(1210px, calc(100svh + 180px)); padding: 0 44px; margin: 0 auto; }
+.site-main { max-width: 1440px; padding: 0 32px; margin: 0 auto; }
 .page-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; padding: 39px 0 31px; }
 .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 9px; font-weight: 600; letter-spacing: 1.9px; line-height: 1.5; color: var(--gold); }
 .intro-divider { width: 20px; height: 1px; background: #b59b6e55; margin: 0 3px; }
@@ -194,7 +194,6 @@ input::placeholder { color: #96836c; }
 .login-footer { text-align: center; padding: 20px 24px 30px; font-size: 9px; color: #a58e71; }
 
 @media (min-width: 1400px) {
-    .site-main { max-width: min(1260px, calc(100svh + 180px)); }
     .game-layout { grid-template-columns: minmax(0, 1fr) 358px; gap: 42px; }
     .choice-panel { padding: 29px 30px 25px; }
     .vote-button { padding-top: 12px; padding-bottom: 12px; }
@@ -219,7 +218,6 @@ input::placeholder { color: #96836c; }
     .login-main { gap: 45px; }
 }
 @media (min-width: 781px) and (max-height: 820px) {
-    .site-main { max-width: min(1210px, calc(100svh + 148px)); }
     .header-inner { padding-top: 18px; padding-bottom: 18px; }
     .page-intro { padding-top: 20px; padding-bottom: 17px; }
     .page-intro h1 { font-size: 35px; }
@@ -311,15 +309,15 @@ input::placeholder { color: #96836c; }
     .login-card h2 { font-size: 46px; }
 }
 @media (min-width: 1121px) {
-    .has-chat .site-main { max-width: min(1440px, calc(100svh + 440px)); }
-    .has-chat .game-layout { grid-template-columns: minmax(0, 1fr) 300px 300px; gap: 24px; }
+    .has-chat .site-main { max-width: 1640px; }
+    .has-chat .game-layout { grid-template-columns: minmax(0, 1fr) 280px 280px; gap: 24px; }
     .has-chat .side-container .choice-panel { padding-left: 23px; padding-right: 23px; }
     .has-chat .side-container h2 { font-size: 42px; }
     .has-chat .desktop-break { display: none; }
     .has-chat .board-note { display: none; }
 }
 @media (min-width: 781px) and (max-width: 1120px) {
-    .has-chat .site-main { max-width: 1050px; }
+    .has-chat .site-main { max-width: 1120px; }
     .has-chat .game-layout { grid-template-columns: minmax(0, 1fr) 280px; gap: 22px; }
     .has-chat .board-panel, .has-chat .side-container { grid-column: 1; }
     .has-chat .chat-panel { grid-column: 2; grid-row: 1 / span 2; align-self: start; padding: 21px; }

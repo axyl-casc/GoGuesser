@@ -119,6 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 enableWheel: false,
                 enableKeys: false,
+                // SGF answer labels are authoritative; variation letters can duplicate A.
+                displayVariations: false,
                 markLastMove: true
             });
             currentPlayer.board.addCustomObject(WGo.Board.coordinates);
